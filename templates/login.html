@@ -1,0 +1,23 @@
+<doctype html>
+    <link rel="stylesheet" type="text/css" href="style1.css" />
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <title>User Login</title>
+    <h2>Atlanta Beltline Login</h2>
+    <form method="POST" action="/">
+        <dl>
+            <p>
+                <label>Email</label>
+                <input name="inputEmail" value="" type="text" style="float:auto" placeholder="Email" autocomplete="off">
+                <input type="submit" value="Login" name="inputEmail">
+            </p>
+            <p>
+                <label>Password</label>
+                <input name="inputPassword" value="" type="text" style="float:auto" placeholder="Password" autocomplete="off">
+            </p>
+            <p>
+                <button type="button">Login</button>
+                <input type="submit" name="register" value="Register" formaction="/register">
+            </p>
+        </dl>
+    </form>
