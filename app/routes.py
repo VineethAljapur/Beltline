@@ -5,38 +5,37 @@ from flask_mysqldb import MySQL
 from jinja2 import Template
 from app import app
 from app.forms import LoginForm
-
-#app = Flask(__name__)
-
-mysql = MySQL()
  
 # MySQL configurations
-'''
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Qwertyuiop44!'
-app.config['MYSQL_DATABASE_DB'] = 'beltline'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
-'''
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Qwertyuiop44!'
+app.config['MYSQL_DB'] = 'beltline'
+app.config['MYSQL_HOST'] = 'localhost'
+
+mysql = MySQL(app)
 
 #app.config['MYSQL_USER']
 
 @app.route("/" , methods=["GET", "POST"])
 def login():
-    #if request.form:
+    if request.form:
+        cur = mysql.connection.cursor()
+        cur.execute('''SELECT * FROM beltline.user''')
+        rv = cur.fetchall()
+        return str(rv)
         #print(request.form)
     form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for {}'.format(
-            form.email.data))
+    #if form.validate_on_submit():
+        #flash('Login requested for {}'.format(
+            #form.email.data))
     return render_template("login_new.html", title="Log In", form=form)
 
-@app.route('/')
-def users():
-    cur = mysql.connection.cursor()
-    cur.execute('''SELECT * FROM beltline.user''')
-    rv = cur.fetchall()
-    return str(rv)
+#@app.route('/')
+#def users():
+    #cur = mysql.connection.cursor()
+    #cur.execute('''SELECT * FROM beltline.user''')
+    #rv = cur.fetchall()
+    #return str(rv)
 
 @app.route("/register", methods=["POST"])
 def register():
