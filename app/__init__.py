@@ -5,7 +5,7 @@ from flask_mysqldb import MySQL
 app = Flask(__name__)
 app.config.from_object(Config)
 
-from app import routes
+from app import routes, models
 
 from flaskext.mysql import MySQL
  
