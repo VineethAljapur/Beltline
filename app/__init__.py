@@ -1,5 +1,5 @@
 from flask import Flask
-from app.config import Config
+from config import Config
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
