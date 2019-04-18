@@ -9,6 +9,8 @@ from pymysql import IntegrityError
 from jinja2 import Template
 from app import app
 from app.forms import *
+from app.tables import *
+from collections import OrderedDict
 import mysql.connector
  
 # MySQL configurations
@@ -23,12 +25,16 @@ conn = mysql.connector.connect(host='localhost',
                             database='beltline',
                             user='root',
                             password='Qwertyuiop44!')
-#cur = mysql.connection.cursor()
 
+
+# Log In (Main) Page
 @app.route("/")
 @app.route("/login" , methods=["GET", "POST"])
 def login():
     form = LoginForm()
+    if form.login.data and form.validate_on_submit:
+        #redirect('/visitorFunc')
+        return render_template("visitorFunc.html")
     #if form.validate_on_submit():
         #flash('Login requested for {}'.format(
             #form.email.data))
@@ -81,6 +87,21 @@ def registerVisitor():
         if form.back.data and form.validate_on_submit():
             return redirect('/registerNavigation')
     return render_template("registerVisitor.html", form=form)
+
+@app.route("/visitorFunc", methods=["POST"])
+def visitorFunc():
+    return render_template('visitorFunc.html')
+
+@app.route("/exploreEvent", methods=["GET", "POST"])
+def exploreEvent():
+    cur = conn.cursor()
+    cur.execute('SELECT SiteName FROM site')
+    #rv = cur.fetchall()
+    form = ExploreEvent()
+    #form.SiteName.choices = rv
+    form.SiteName.choices = [(g[0], g[0]) for g in cur.fetchall()]#rv['label']]
+    table = EventTable(items)
+    return render_template("exploreEvent.html", form=form, table=table)
 
 @app.route("/back", methods=["POST"])
 def back():

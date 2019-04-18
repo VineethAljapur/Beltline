@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>User Functionality</h2>
+    <form method="POST" action="/register">
+        <input type="submit" name="takeTransit" value="Take Transit">
+    </form>
+    <form method="POST" action="/register">
+        <input type="submit" name="viewTransitHistory" value="View Transity History">
+    </form>
+    <form method="POST" action="/back">
+        <input type="submit" name="back" value="Back">
+    </form>
+</div>
+
+{% endblock %}

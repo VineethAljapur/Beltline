@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Explore Event</h2>
+    <form method="GET" action="/exploreEvent" novalidate>
+        {{ form.hidden_tag() }}
+        <dl>
+            <p>
+                {{ form.EventName.label }}
+                {{ form.EventName(size=32) }}
+                {{ form.keyword.label }}
+                {{ form.keyword(size=32) }}
+            </p>
+            <p>
+                {{ form.SiteName.label }}
+                {{ form.SiteName(size=1) }}
+            </p>
+            <p>
+                {{ form.StartDate.label }}
+                {{ form.StartDate(size=32) }}
+                {{ form.EndDate.label }}
+                {{ form.EndDate(size=32) }}
+            </p>
+            <p>
+                {{ form.totalVisitsRange.label }}
+                {{ form.totalVisitsRange(size=15) }}
+                {{ form.ticketPriceRange.label }}
+                {{ form.ticketPriceRange(size=15) }}
+            </p>
+            <p>
+                {{ form.includeVisited.label }}
+                {{ form.includeVisited }}
+                {{ form.includeSoldOutEvent.label }}
+                {{ form.includeSoldOutEvent }}
+            </p>
+            <p>
+                {{ table }}
+            </p>
+            <p>
+                {{ form.back }}
+            </p>
+        </dl>
+    </form>
+{% endblock %}
