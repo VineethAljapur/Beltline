@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Register User</h2>
+    <form method="POST" action="/registerStaff" novalidate>
+        {{ form.hidden_tag() }}
+        <dl>
+            <p>
+                {{ form.fname.label }}
+                {{ form.fname(size=32) }}
+                {{ form.lname.label }}
+                {{ form.lname(size=32) }}
+                {% for error in form.fname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.username.label }}
+                {{ form.username(size=32) }}
+                {{ form.userType.label }}
+                {{ form.userType }}
+            </p>
+            <p>
+                {{ form.password.label }}
+                {{ form.password(size=32) }}
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+                {{ form.conPassword.label }}
+                {{ form.conPassword(size=32) }}
+            </p>
+            <p>
+                {{ form.phone.label }}
+                {{ form.phone(size=32) }}
+                {{ form.address.label }}
+                {{ form.address(size=45) }}
+            </p>
+            <p>
+                {{ form.city.label }}
+                {{ form.city(size=20) }}
+                {{ form.state.label }}
+                {{ form.state }}
+                {{ form.zipcode.label }}
+                {{ form.zipcode(size=30) }}
+            </p>
+            <p>
+                {{ form.email.label }}
+                {{ form.email(size=45) }}
+            </p>
+            <p>
+                {{ form.register }}
+                {{ form.back }}
+            </p>
+        </dl>
+    </form>
+{% endblock %}

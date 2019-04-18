@@ -1,13 +1,16 @@
 from flask import Flask
 from config import Config
-from flask_mysqldb import MySQL
+#from flask_mysqldb import MySQL
+#from flaskext.mysql import MySQL
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.debug = True
 app.config.from_object(Config)
 
-from app import routes
+from app import routes, tables
 
-from flaskext.mysql import MySQL
+
  
 # MySQL configurations
 #app.config['MYSQL_DATABASE_USER'] = 'root'

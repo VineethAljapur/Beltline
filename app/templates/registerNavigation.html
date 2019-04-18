@@ -1,3 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Atlanta Beltline Login</h2>
+    <form method="POST" action="/registerNavigation" novalidate>
+        {{ form.hidden_tag() }}
+        <dl>
+            <p>
+                {{ form.userOnly }} <br>
+                {{ form.visitorOnly }} <br>
+                {{ form.employeeOnly }} <br>
+                {{ form.employeeVisitor }} <br>
+                {{ form.back }}
+            </p>
+        </dl>
+    </form>
+{% endblock %}
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +31,10 @@
 
 <div class="container">
     <h2>Register Navigation</h2>
-    <form method="POST" action="/userOnly">
+    <form method="POST" action="/register">
         <input type="submit" name="userOnly" value="User Only">
     </form>
-    <form method="POST" action="/vistorOnly">
+    <form method="POST" action="/register">
         <input type="submit" name="vistorOnly" value="Visitor Only">
     </form>
     <form method="POST" action="/employeeOnly">
@@ -30,3 +49,4 @@
 </div>
 </body>
 </html>
+-->

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Register User</h2>
+    <form method="POST" action="/userOnly" novalidate>
+        <dl>
+            <p>
+                {{ form.fname.label }}
+                {{ form.fname(size=32) }}
+                {{ form.lname.label }}
+                {{ form.lname(size=32) }}
+                {% for error in form.fname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.username.label }}
+                {{ form.username(size=32) }}
+            </p>
+            <p>
+                {{ form.password.label }}
+                {{ form.password(size=32) }}
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+                {{ form.conPassword.label }}
+                {{ form.conPassword(size=32) }}
+            </p>
+            <p>
+                {{ form.email.label }}
+                {{ form.email(size=45) }}
+            </p>
+            <p>
+                {{ form.submit }}
+                <input type="submit" name="back" value="Back" formaction="/">
+            </p>
+        </dl>
+    </form>
+{% endblock %}

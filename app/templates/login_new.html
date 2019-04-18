@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Atlanta Beltline Login</h2>
-    <form method="POST" action="/" novalidate>
+    <form method="POST" action="/login" novalidate>
         {{ form.hidden_tag() }}
         <dl>
             <p>
@@ -21,7 +21,7 @@
             </p>
             <p>
                 {{ form.submit }}
-                <input type="submit" name="register" value="Register" formaction="/register">
+                <input type="submit" name="register" value="Register" formaction="/registerNavigation">
             </p>
         </dl>
     </form>
