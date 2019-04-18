@@ -28,24 +28,11 @@ conn = mysql.connector.connect(host='localhost',
 @app.route("/")
 @app.route("/login" , methods=["GET", "POST"])
 def login():
-    #if request.form:
-        #cur = mysql.connection.cursor()
-        #cur.execute('''SELECT * FROM beltline.user''')
-        #rv = cur.fetchall()
-        #return str(rv)
-        #print(request.form)
     form = LoginForm()
     #if form.validate_on_submit():
         #flash('Login requested for {}'.format(
             #form.email.data))
     return render_template("login_new.html", title="Log In", form=form)
-
-#@app.route('/')
-#def users():
-    #cur = mysql.connection.cursor()
-    #cur.execute('''SELECT * FROM beltline.user''')
-    #rv = cur.fetchall()
-    #return str(rv)
 
 @app.route("/registerNavigation", methods=["GET", "POST"])
 def registerNavigation():

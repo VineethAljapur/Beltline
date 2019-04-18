@@ -1,0 +1,9 @@
+Requirements for app (use "pip install (package)" for each:
+flask
+flask_login
+flask_sqlalchemy
+flask_table
+mysql-connector-python
+Flask-WTF
+WTForms
+jinja2
