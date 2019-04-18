@@ -12,11 +12,11 @@ from app.forms import *
 import mysql.connector
  
 # MySQL configurations
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Qwertyuiop44!'
-app.config['MYSQL_DB'] = 'beltline'
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['DEBUG'] = 'True'
+#app.config['MYSQL_USER'] = 'root'
+#app.config['MYSQL_PASSWORD'] = 'Qwertyuiop44!'
+#app.config['MYSQL_DB'] = 'beltline'
+#app.config['MYSQL_HOST'] = 'localhost'
+#app.config['DEBUG'] = 'True'
 
 #mysql = MySQL(app)
 conn = mysql.connector.connect(host='localhost',
