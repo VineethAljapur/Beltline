@@ -10,9 +10,6 @@
                 {{ form.fname(size=32) }}
                 {{ form.lname.label }}
                 {{ form.lname(size=32) }}
-                {% for error in form.fname.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
             </p>
             <p>
                 {{ form.username.label }}
@@ -21,9 +18,6 @@
             <p>
                 {{ form.password.label }}
                 {{ form.password(size=32) }}
-                {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
                 {{ form.conPassword.label }}
                 {{ form.conPassword(size=32) }}
             </p>
