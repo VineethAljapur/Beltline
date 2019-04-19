@@ -11,6 +11,7 @@ from app import app
 from app.forms import *
 from app.tables import *
 from collections import OrderedDict
+import pandas as pd
 import mysql.connector
  
 # MySQL configurations
@@ -45,16 +46,47 @@ def registerNavigation():
     form = RegisterNavigation()
     if form.validate_on_submit():
         if form.userOnly.data:
-            return redirect('/registerVisitor')
+            return redirect('/registerUser')
         elif form.visitorOnly.data:
             return redirect('/registerVisitor')
         elif form.employeeOnly.data:
-            return redirect('/registerStaff')
+            return redirect('/registerEmployeeOnly')
         elif form.employeeVisitor.data:
-            return redirect('/registerStaff')
+            return redirect('/registerEmployeeVisitor')
         elif form.back.data:
             return redirect('/')
     return render_template("registerNavigation.html", form=form)
+
+@app.route("/registerUser", methods=["GET", "POST"])
+def registerUser():
+    form = VisitorForm()
+    if form.validate_on_submit() and form.register.data:
+        fname = form.fname.data
+        lname = form.lname.data
+        username = form.username.data.lower()
+        password = form.password.data
+        password = hashlib.sha1(password.encode()).hexdigest()
+        email = form.email.data.lower()                #FOR email ADD, send to DB, then display that input on the page
+        #conn = mysql.connect()
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM user WHERE username = "%s" ' % username)
+        rv = cur.fetchone()
+        if rv is None:
+            cur.execute('SELECT * FROM email WHERE email_address = "%s" AND username = "%s"' % (email, username))
+            rv = cur.fetchone()
+            if rv is None:
+                cur.execute('INSERT INTO user (firstname, lastname, username, password, status) VALUES (%s, %s, %s, %s, %s)',
+                            (fname, lname, username, password, 'Pending'))
+                conn.commit()
+                flash('Sign up successful! (Approval Pending)')
+                return redirect(url_for('login'))
+            else:
+                flash('This email already exists!')
+        else:
+            flash('Username already exists!')
+    elif form.validate_on_submit() and form.back.data:
+            return redirect(url_for('registerNavigation'))
+    return render_template("registerVisitor.html", form=form)
 
 @app.route("/registerVisitor", methods=["GET", "POST"])
 def registerVisitor():
@@ -65,7 +97,7 @@ def registerVisitor():
         username = form.username.data.lower()
         password = form.password.data
         password = hashlib.sha1(password.encode()).hexdigest()
-        email = form.email.data.lower()
+        email = form.email.data.lower()                #FOR email ADD, send to DB, then display that input on the page
         #conn = mysql.connect()
         cur = conn.cursor()
         cur.execute('SELECT * FROM user WHERE username = "%s" ' % username)
@@ -84,9 +116,105 @@ def registerVisitor():
                 flash('This email already exists!')
         else:
             flash('Username already exists!')
-        if form.back.data and form.validate_on_submit():
-            return redirect('/registerNavigation')
+    elif form.validate_on_submit() and form.back.data:
+            return redirect(url_for('registerNavigation'))
     return render_template("registerVisitor.html", form=form)
+
+@app.route("/registerEmployeeOnly", methods=["GET", "POST"])
+def registerEmployeeOnly():
+    form = StaffForm()
+    if form.validate_on_submit() and form.register.data:
+        fname = form.fname.data
+        lname = form.lname.data
+        username = form.username.data.lower()
+        userType = form.userType.data
+        #MAKE a random (check Piazza) employeeID as variable
+        password = form.password.data
+        password = hashlib.sha1(password.encode()).hexdigest()
+        phone = form.phone.data
+        address = form.address.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        email = form.email.data.lower()                #FOR email ADD, send to DB, then display that input on the page
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM user WHERE username = "%s" ' % username)
+        rv = cur.fetchone()
+        if rv is None:
+            cur.execute('SELECT * FROM email WHERE email_address = "%s" AND username = "%s"' % (email, username))
+            rv = cur.fetchone()
+            if rv is None:
+                cur.execute('INSERT INTO user (firstname, lastname, username, password, status) VALUES (%s, %s, %s, %s, %s)',
+                            (fname, lname, username, password, 'Pending'))
+                cur.execute('INSERT INTO employee (username, phone, address, city, state, zipcode) VALUES (%s, %s, %s, %s, %s, %s)',
+                            (username, phone, address, city, state, zipcode))
+                #if userType == 'Manager':
+                    #cur.execute('INSERT INTO manager (%s)', [employeeID])
+                #elif userType == 'Staff':
+                    #cur.execute('INSERT INTO staff (%s)', [employeeID])
+                conn.commit()
+                flash('Sign up successful! (Approval Pending)')
+                return redirect(url_for('login'))
+            else:
+                flash('This email already exists!')
+        else:
+            flash('Username already exists!')
+    elif form.validate_on_submit() and form.back.data:
+            #return redirect(url_for('registerNavigation'))
+            return render_template("registerNavigation.html")
+    return render_template("registerStaff.html", form=form)
+
+@app.route("/registerEmployeeVisitor", methods=["GET", "POST"])
+def registerEmployeeVisitor():
+    form = StaffForm()
+    if form.validate_on_submit() and form.register.data:
+        fname = form.fname.data
+        lname = form.lname.data
+        username = form.username.data.lower()
+        userType = form.userType.data
+        #MAKE a random (check Piazza) employeeID as variable
+        password = form.password.data
+        password = hashlib.sha1(password.encode()).hexdigest()
+        phone = form.phone.data
+        address = form.address.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        email = form.email.data.lower()                #FOR email ADD, send to DB, then display that input on the page
+        #conn = mysql.connect()
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM user WHERE username = "%s" ' % username)
+        rv = cur.fetchone()
+        if rv is None:
+            cur.execute('SELECT * FROM email WHERE email_address = "%s" AND username = "%s"' % (email, username))
+            rv = cur.fetchone()
+            if rv is None:
+                cur.execute('INSERT INTO user (firstname, lastname, username, password, status) VALUES (%s, %s, %s, %s, %s)',
+                            (fname, lname, username, password, 'Pending'))
+                cur.execute('INSERT INTO employee (username, phone, address, city, state, zipcode) VALUES (%s, %s, %s, %s, %s, %s)',
+                            (username, phone, address, city, state, zipcode))
+                cur.execute('INSERT INTO visitor VALUE (%s)', [username])
+                #if userType == 'Manager':
+                    #cur.execute('INSERT INTO manager (%s)', [employeeID])
+                #elif userType == 'Staff':
+                    #cur.execute('INSERT INTO staff (%s)', [employeeID])
+                conn.commit()
+                flash('Sign up successful! (Approval Pending)')
+                return redirect(url_for('login'))
+            else:
+                flash('This email already exists!')
+        else:
+            flash('Username already exists!')
+    elif form.validate_on_submit() and form.back.data:
+            #return redirect(url_for('registerNavigation'))
+            return render_template("registerNavigation.html")
+    return render_template("registerStaff.html", form=form)
+
+@app.route("/delete/<email_address>", methods=['POST'])
+def delete_email(email_address):
+    cur = conn.cursor()
+    cur.execute('DELETE username, email_address FROM email WHERE username=%s AND email_address=%s' % (username, email_address))
+    conn.commit
 
 @app.route("/visitorFunc", methods=["POST"])
 def visitorFunc():
@@ -100,12 +228,17 @@ def exploreEvent():
     form = ExploreEvent()
     #form.SiteName.choices = rv
     form.SiteName.choices = [(g[0], g[0]) for g in cur.fetchall()]#rv['label']]
-    table = EventTable(items)
-    return render_template("exploreEvent.html", form=form, table=table)
+    cur.execute('SELECT EventName, SiteName, price FROM event')
+    #items = [(g[0], g[0]) for g in cur.fetchall()]
+    items = cur.fetchall()
+    table = EventTable([Event(EventName, SiteName, price) for EventName, SiteName, price in items])
+    #table = pd.DataFrame(items)
+    #df_html = table.to_html()
+    return render_template("exploreEvent.html", form=form, table=table) #table_html=df_html)
 
-@app.route("/back", methods=["POST"])
-def back():
-    return redirect('/')
+#@app.route("/back", methods=["POST"])
+#def back():
+    #return redirect('/')
 
 
 if __name__ == "__main__":

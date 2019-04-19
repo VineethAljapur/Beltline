@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Register User</h2>
+    <h2>Register Visitor</h2>
     <form method="POST" action="/registerVisitor" novalidate>
         {{ form.hidden_tag() }}
         <dl>
@@ -28,8 +28,14 @@
                 {{ form.conPassword(size=32) }}
             </p>
             <p>
-                {{ form.email.label }}
-                {{ form.email(size=45) }}
+                {% for email_address in email %}
+                    <li><h1>{{ email_address }}</h1>
+                    <form action="{{url_for('delete_email', email_address=email_address) }}" method="POST">
+                        <input type="submit" value="Delete">
+                    </form>
+                {% endfor %}
+                <!--{{ form.email.label }}
+                {{ form.email(size=45) }}-->
             </p>
             <p>
                 {{ form.register }}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Register User</h2>
+    <h2>Register Staff</h2>
     <form method="POST" action="/registerStaff" novalidate>
         {{ form.hidden_tag() }}
         <dl>
@@ -18,7 +18,7 @@
                 {{ form.username.label }}
                 {{ form.username(size=32) }}
                 {{ form.userType.label }}
-                {{ form.userType }}
+                {{ form.userType(size=1) }}
             </p>
             <p>
                 {{ form.password.label }}
@@ -39,7 +39,7 @@
                 {{ form.city.label }}
                 {{ form.city(size=20) }}
                 {{ form.state.label }}
-                {{ form.state }}
+                {{ form.state(size=1) }}
                 {{ form.zipcode.label }}
                 {{ form.zipcode(size=30) }}
             </p>
